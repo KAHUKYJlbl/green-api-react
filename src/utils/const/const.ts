@@ -5,11 +5,16 @@ export enum AppRoute {
 
 export enum APIRoute {
   Login = '/:id/getStateInstance/:token',
-  Canceling = '/reservation/:reservationId',
+  Contact = '/:id/checkWhatsapp/:token',
+  SendMessage = '/:id/sendMessage/:token',
+  GetMessage = '/:id/getMessage/:token',
+  GetMessages = '/:id/getChatHistory/:token',
+  GetNotification = '/:id/receiveNotification/:token',
+  DeleteNotification = '/:id/deleteNotification/:token/:receiptId',
 }
 
 export enum NameSpace {
-  App = 'App',
+  Contacts = 'Contacts',
   User = 'User',
   Chat = 'Chat',
 }
