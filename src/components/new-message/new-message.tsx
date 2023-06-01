@@ -3,9 +3,10 @@ import { toast } from 'react-toastify';
 
 import { MessageFormData } from '../../types/chat/message';
 import { useAppDispatch } from '../../hooks/store-hooks/use-app-dispatch';
-import { getMessages, sendMessage } from '../../store/chat/api-actions';
+import { sendMessage } from '../../store/chat/api-actions';
 import { useAppSelector } from '../../hooks/store-hooks/use-app-selector';
 import { getCurrentContact } from '../../store/contacts/selectors';
+import { pushNewMessage } from '../../store/chat/chat-slice';
 
 export default function NewMessage (): JSX.Element {
   const dispatch = useAppDispatch();
@@ -14,10 +15,16 @@ export default function NewMessage (): JSX.Element {
 
   const onFormSubmit: SubmitHandler<MessageFormData> = (data) => {
     dispatch(sendMessage({message: data.message, chatId: `${currentContact}@c.us`}))
-      // .unwrap() {idMessage}
-      .then(() => {
+      .unwrap()
+      .then(({idMessage}) => {
         reset();
-        dispatch(getMessages({chatId: `${currentContact}@c.us`, count: 99}));
+        dispatch(pushNewMessage({
+          textMessage: data.message,
+          chatId: `${currentContact}@c.us`,
+          type: 'outgoing',
+          timestamp: 0,
+          idMessage,
+        }));
       });
   };
 

@@ -1,26 +1,31 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 import { FetchStatus, NameSpace } from '../../utils/const/const';
-import { getMessage, getMessages, sendMessage } from './api-actions';
-import { Message } from '../../types/chat/message';
+import { getMessage, getMessages, getNotification, sendMessage } from './api-actions';
+import { Message, Notification } from '../../types/chat/message';
 
 type InitialState = {
   chatLoadingStatus: FetchStatus;
   messagesList: Message[];
+  receivedNotification: Notification | null;
 }
 
 const initialState: InitialState = {
   chatLoadingStatus: FetchStatus.Idle,
   messagesList: [],
+  receivedNotification: null,
 };
 
 export const chatSlice = createSlice({
   name: NameSpace.Chat,
   initialState,
   reducers: {
-    // changeCurrentContact: (state, action: PayloadAction<number>) => {
-    //   state.currentContact = action.payload;
-    // },
+    pushNewMessage: (state, action: PayloadAction<Message>) => {
+      state.messagesList = [action.payload, ...state.messagesList];
+    },
+    clearNotification: (state) => {
+      state.receivedNotification = null;
+    },
   },
   extraReducers(builder) {
     builder
@@ -31,6 +36,18 @@ export const chatSlice = createSlice({
         state.chatLoadingStatus = FetchStatus.Pending;
       })
       .addCase(sendMessage.rejected, (state) => {
+        state.chatLoadingStatus = FetchStatus.Failed;
+      })
+      .addCase(getNotification.fulfilled, (state, action) => {
+        state.chatLoadingStatus = FetchStatus.Success;
+        if (action.payload) {
+          state.receivedNotification = action.payload;
+        }
+      })
+      .addCase(getNotification.pending, (state) => {
+        state.chatLoadingStatus = FetchStatus.Pending;
+      })
+      .addCase(getNotification.rejected, (state) => {
         state.chatLoadingStatus = FetchStatus.Failed;
       })
       .addCase(getMessage.fulfilled, (state, action) => {
@@ -56,4 +73,4 @@ export const chatSlice = createSlice({
   }
 });
 
-// export const {changeCurrentContact} = contactsSlice.actions;
+export const {pushNewMessage, clearNotification} = chatSlice.actions;

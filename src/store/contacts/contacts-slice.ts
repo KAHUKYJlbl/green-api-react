@@ -25,6 +25,11 @@ export const contactsSlice = createSlice({
         state.currentContact = 0;
       }
     },
+    addContact: (state, action: PayloadAction<number>) => {
+      if (!state.contactsList.includes(action.payload)) {
+        state.contactsList = [...state.contactsList, action.payload];
+      }
+    },
     changeCurrentContact: (state, action: PayloadAction<number>) => {
       state.currentContact = action.payload;
     },
@@ -35,6 +40,7 @@ export const contactsSlice = createSlice({
         state.contactsLoadingStatus = FetchStatus.Success;
         if (action.payload.existsWhatsapp) {
           state.contactsList = [...state.contactsList, action.payload.phoneNumber];
+          state.currentContact = action.payload.phoneNumber;
         }
       })
       .addCase(checkNewContact.pending, (state) => {
@@ -46,4 +52,4 @@ export const contactsSlice = createSlice({
   }
 });
 
-export const {deleteContact, changeCurrentContact} = contactsSlice.actions;
+export const {addContact, deleteContact, changeCurrentContact} = contactsSlice.actions;

@@ -2,9 +2,11 @@ import { createSelector } from '@reduxjs/toolkit';
 
 import { State } from '../../types/state/state';
 import { FetchStatus, NameSpace } from '../../utils/const/const';
-import { Message } from '../../types/chat/message';
+import { Message, Notification } from '../../types/chat/message';
 
 export const getMessageList = (state: State): Message[] => state[NameSpace.Chat].messagesList;
+
+export const getStoredNotification = (state: State): Notification | null => state[NameSpace.Chat].receivedNotification;
 
 export const getChatLoadingStatus = createSelector(
   (state: State): FetchStatus => state[NameSpace.Chat].chatLoadingStatus,

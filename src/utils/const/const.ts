@@ -9,6 +9,8 @@ export enum APIRoute {
   SendMessage = '/:id/sendMessage/:token',
   GetMessage = '/:id/getMessage/:token',
   GetMessages = '/:id/getChatHistory/:token',
+  GetNotification = '/:id/receiveNotification/:token',
+  DeleteNotification = '/:id/deleteNotification/:token/:receiptId',
 }
 
 export enum NameSpace {
