@@ -6,6 +6,9 @@ export enum AppRoute {
 export enum APIRoute {
   Login = '/:id/getStateInstance/:token',
   Contact = '/:id/checkWhatsapp/:token',
+  SendMessage = '/:id/sendMessage/:token',
+  GetMessage = '/:id/getMessage/:token',
+  GetMessages = '/:id/getChatHistory/:token',
 }
 
 export enum NameSpace {

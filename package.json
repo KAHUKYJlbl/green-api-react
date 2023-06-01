@@ -54,7 +54,8 @@
         "error",
         {
           "checksVoidReturn": {
-            "attributes": false
+            "attributes": false,
+            "arguments": false
           }
         }
       ]

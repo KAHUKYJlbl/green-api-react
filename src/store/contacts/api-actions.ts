@@ -13,7 +13,7 @@ export const checkNewContact = createAsyncThunk<CheckNewContactResult, NewContac
   state: State;
   extra: AxiosInstance;
 }>(
-  'User/checkNewContact',
+  'Contacts/checkNewContact',
   async ({phoneNumber}, {extra: axios}) => {
     try {
       const {data: {existsWhatsapp}} = await axios.post<CheckNewContactResponse>(
